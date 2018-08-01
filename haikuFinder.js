@@ -5,7 +5,6 @@ module.exports.findHaiku = function (phrases) {
     shuffleArray(phrases);
     var fiveSyllablePhrases = [];
     var sevenSyllablePhrases = [];
-    var phrasesRemaining = phrases.length;
     for(var i = 0; i < phrases.length; i++){
         currentPhraseSyllable = syllable(phrases[i]);
         if(currentPhraseSyllable==5)
@@ -13,9 +12,34 @@ module.exports.findHaiku = function (phrases) {
         if(currentPhraseSyllable==7)
             sevenSyllablePhrases.push(phrases[i])
     }
-    console.log(fiveSyllablePhrases);
-    console.log(sevenSyllablePhrases);
     printHaiku(fiveSyllablePhrases, sevenSyllablePhrases);
+}
+
+module.exports.findAllHaikus = function(phrases) {
+    shuffleArray(phrases);
+    var fiveSyllablePhrases = [];
+    var sevenSyllablePhrases = [];
+    for(var i = 0; i < phrases.length; i++){
+        currentPhraseSyllable = syllable(phrases[i]);
+        if(currentPhraseSyllable==5)
+            fiveSyllablePhrases.push(phrases[i])
+        if(currentPhraseSyllable==7)
+            sevenSyllablePhrases.push(phrases[i])
+    }
+    completeHaikus = [];
+    var fiveSyllablePhraseIndex = 0;
+    for(var i = 0; i < sevenSyllablePhrases.length; i++){
+        if(fiveSyllablePhrases[fiveSyllablePhraseIndex] != undefined 
+            && fiveSyllablePhrases[fiveSyllablePhraseIndex+1] != undefined){
+                var haikuToPush =
+                    fiveSyllablePhrases[fiveSyllablePhraseIndex]+"\n"+
+                    sevenSyllablePhrases[i]+"\n"+
+                    fiveSyllablePhrases[fiveSyllablePhraseIndex+1];
+                completeHaikus.push(haikuToPush);
+            }
+        fiveSyllablePhraseIndex+=2;
+    }
+    return completeHaikus;
 }
 
 function shuffleArray(array) {

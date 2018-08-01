@@ -26,5 +26,6 @@ function stripTweet(rawTweetText){
     tweetBeingStripped = tweetBeingStripped.replace(/#[a-zA-Z0-9]+/gi, '');
     tweetBeingStripped = tweetBeingStripped.replace(/\\n/gi, '');
     tweetBeingStripped = tweetBeingStripped.replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi, '');
+    tweetBeingStripped = tweetBeingStripped.replace (/” /g, '');
     return tweetBeingStripped;
 }
