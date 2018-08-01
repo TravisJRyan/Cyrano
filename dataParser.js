@@ -7,7 +7,10 @@ module.exports.parseData = function(scrapedData){
         var splitTweet = strippedTweet.split(".");
         if(splitTweet.length > 1){ // Push period separated phrases
             for(var j = 0; j < splitTweet.length; j++){
-                tweets.push(splitTweet[j]);
+                if(splitTweet[j].substr(0,1)==" ")
+                    tweets.push(splitTweet[j].substr(1));
+                else
+                    tweets.push(splitTweet[j]);
             }
         }
     }
@@ -19,9 +22,9 @@ module.exports.parseData = function(scrapedData){
 
 function stripTweet(rawTweetText){
     var tweetBeingStripped = rawTweetText;
-    tweetBeingStripped.replace(/[0-9]\./gi, '');
-    tweetBeingStripped.replace(/#[a-zA-Z0-9]+/gi, '');
-    tweetBeingStripped.replace(/\\n/gi, '');
-    console.log(rawTweetText+"\n\n "+tweetBeingStripped);
+    tweetBeingStripped = tweetBeingStripped.replace(/[0-9]\./gi, '');
+    tweetBeingStripped = tweetBeingStripped.replace(/#[a-zA-Z0-9]+/gi, '');
+    tweetBeingStripped = tweetBeingStripped.replace(/\\n/gi, '');
+    tweetBeingStripped = tweetBeingStripped.replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi, '');
     return tweetBeingStripped;
 }
