@@ -1,26 +1,22 @@
 const request = require("request");
+const syllable = require("syllable");
 
-function main(){
-    const phrases = ["hello i am a sentence. There are many words in this sentence.", "seven syllables right here", "this is a phrase", "cat", "hello hello hello", "five syllables here", "seven syllables here dawg", "five more syllables"];
+module.exports.findHaiku = function (phrases) {
     shuffleArray(phrases);
     var fiveSyllablePhrases = [];
     var sevenSyllablePhrases = [];
     var phrasesRemaining = phrases.length;
     for(var i = 0; i < phrases.length; i++){
-        getTotalSyllablesForArrayOfWords(phrases[i], function(phrase, totalSyllables){
-            phrasesRemaining--;
-            if(totalSyllables==5)
-                fiveSyllablePhrases.push(phrase);
-            else if(totalSyllables==7)
-                sevenSyllablePhrases.push(phrase);
-            if(phrasesRemaining<=0){
-                printHaiku(fiveSyllablePhrases, sevenSyllablePhrases);
-            }
-        });
+        currentPhraseSyllable = syllable(phrases[i]);
+        if(currentPhraseSyllable==5)
+            fiveSyllablePhrases.push(phrases[i])
+        if(currentPhraseSyllable==7)
+            sevenSyllablePhrases.push(phrases[i])
     }
+    console.log(fiveSyllablePhrases);
+    console.log(sevenSyllablePhrases);
+    printHaiku(fiveSyllablePhrases, sevenSyllablePhrases);
 }
-
-main();
 
 function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
@@ -31,7 +27,7 @@ function shuffleArray(array) {
     }
 }
 
-function printHaiku(fiveSyllablePhrases, sevenSyllablePhrases){
+function printHaiku(fiveSyllablePhrases, sevenSyllablePhrases) {
     console.log("\n\n\n");
     console.log(fiveSyllablePhrases[0]);
     console.log(sevenSyllablePhrases[0]);
@@ -40,29 +36,10 @@ function printHaiku(fiveSyllablePhrases, sevenSyllablePhrases){
 }
 
 // turns a string into a space-delimeted string array with only alphabetic characters
-function splitText(phrases){
-    for(var i = 0; i < phrases.length; i++){
+function splitText(phrases) {
+    for (var i = 0; i < phrases.length; i++) {
         phrases[i].replace(/[^a-zA-Z]/gi, '')
         phrases[i] = phrases[i].split(" ");
     }
     return phrases;
-}
-
-function getTotalSyllablesForArrayOfWords(phrase, callback) {
-    var words = phrase.split(" ");
-    for (var i = 0; i < words.length; i++) {
-        var totalSyllables = 0;
-        var requestsRemaining = words.length;
-        request('https://api.datamuse.com/words?sp=' + words[i].toLowerCase() + '&md=s', function (error, response, body) {
-            if (error)
-                console.log('Error:', error);
-            else {
-                totalSyllables+=JSON.parse(body)[0]["numSyllables"];
-                --requestsRemaining;
-                if (requestsRemaining <= 0) {
-                    callback(phrase, totalSyllables);
-                }
-            }
-        });
-    }
 }

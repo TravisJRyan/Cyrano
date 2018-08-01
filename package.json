@@ -1,0 +1,25 @@
+{
+  "name": "cyrano",
+  "version": "1.0.0",
+  "description": "A poem generator tool",
+  "main": "app.js",
+  "scripts": {
+    "test": "npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TravisJRyan/Cyrano.git"
+  },
+  "author": "Travis Ryan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TravisJRyan/Cyrano/issues"
+  },
+  "homepage": "https://github.com/TravisJRyan/Cyrano#readme",
+  "dependencies": {
+    "scrape-twitter": "^0.11.0",
+    "stream": "0.0.2",
+    "syllable": "^3.0.0",
+    "twitter-scraper": "^5.1.0"
+  }
+}
